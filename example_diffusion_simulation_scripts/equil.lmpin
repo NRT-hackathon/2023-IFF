@@ -1,0 +1,77 @@
+# Example LAMMPS script used to run equilibration for diffusion simulations (of Codeine in Polyurea)
+
+#Set up box
+units		real
+atom_style	angle
+
+region 	box block -25 25 -25 25 -25 25 
+create_box 	12 box bond/types 13 extra/bond/per/atom 5 angle/types 25 extra/angle/per/atom 10
+
+pair_style 	lj/cut 11 #default cutoff of 1.1nm
+pair_modify	shift yes
+bond_style 	harmonic
+special_bonds 	lj 0.0 1.0 1.0
+angle_style	harmonic
+
+#Define water mass
+mass 		1 72.0
+
+# Load molecules
+read_data	PU_20.dat add append offset 1 0 0 0 0
+read_data 	codeine_data.dat add append offset 3 1 1 0 0
+read_data	nonbond_equil.txt add merge
+
+#initialize
+velocity	all create 300 82469
+
+neighbor	5 bin
+neigh_modify	every 10 delay 0 check yes
+
+fix		1 all nvt temp 300 300 $(10*dt)
+
+thermo		10000
+
+thermo_style 	custom step temp pe ke etotal vol press atoms
+thermo_modify 	norm no
+fix 		thermo_print all print 1000 "$(step) $(temp) $(pe) $(ke) $(etotal) $(vol) $(press) $(atoms)" screen no title "# step temp pe ke etotal vol press atoms"
+
+dump 		1 all custom 10000 equil.lammpstrj id mol type xu yu zu
+dump_modify 	1 sort id append no
+
+#remove initial overlaps
+minimize 	1e-4 1e-6 100 1000
+
+#run to move from initial positions
+timestep 	3
+
+run 100000
+
+#shrink box to correct size
+fix 		2 all deform 10 x final -50 50 y final -50 50 z final -50 50 units box
+comm_modify	cutoff 20
+
+run 100000
+
+unfix 		2
+
+#add all relevant potentials and equilibrate (pair coeffs between 2 and 3 are treated as WCA so that we actually get some movement)
+read_data	nonbond_LJ.txt add merge
+pair_coeff	2 2 0.811 4.7 5.276
+pair_coeff	2 3 0.555 4.3 4.827
+pair_coeff	3 3 0.849 4.1 4.602
+
+
+#Run equilibration and keep track of equilibration params
+fix 		thermo_file all print 1000 "$(step) $(temp) $(pe) $(etotal)" file thermo_equil.txt screen no title "step temp pe etot" 
+restart	100000 equil_rs.$(step) equil_rs.$(step)
+
+run 		1000000
+
+write_restart	post_equil.rs
+
+
+
+
+
+
+

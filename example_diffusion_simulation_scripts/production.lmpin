@@ -1,0 +1,28 @@
+# Diffusion of Codeine in Polyurea-- Production
+
+read_restart   post_equil.rs
+
+neighbor	5 bin
+neigh_modify	every 10 delay 0 check yes
+
+fix		1 all nvt temp 300 300 $(10*dt)
+
+thermo		100000
+
+thermo_style 	custom step temp pe ke etotal vol press atoms
+thermo_modify 	norm no
+fix 		thermo_print all print 1000000 "$(step) $(temp) $(pe) $(ke) $(etotal) $(vol) $(press) $(atoms)" screen no title "# step temp pe ke etotal vol press atoms"
+
+group 		my_molecs type 4:12
+dump 		1 all custom 1000000 production.lammpstrj id mol type xu yu zu
+dump_modify 	1 sort id append no
+
+dump 		2 my_molecs custom 100000 diffusing_molecs.lammpstrj id mol type xu yu zu
+dump_modify	2 sort id append no
+
+timestep 	3
+restart 	1000000	prod_rs.0 prod_rs.1
+
+run 		10000000
+
+write_restart	codeine_post_production.rs
