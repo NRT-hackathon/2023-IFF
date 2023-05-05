@@ -59,25 +59,33 @@ def write_data_files(chemical, grouping, mapping, len_box, save_dir, sim_type,
         
         write_backward_difference_data_file(f'{save_dir}/nonbond_LJ_additional_soft.txt', ti_pairlist, d_lambda)
             
+"""
+These two examples demonstrate how the code can be organized to write the data files 
+required for the simulation.
+
+
+
+"""
 
 def codeine_diffusion_example():
-    #Example of MARTINI model description for codeine
+    #Example of MARTINI model description for codeine (obtained using visualize_sdfs.py)
     chemical = 'codeine'
     grouping = [[4, 11], [2, 3],   [9,8],[5, 6, 15], [20, 17],[32, 35, 38], [16, 7, 31], [19,22], [23, 28, 27] ]
     mapping = ['TN2a', 'TC5',  'TC5',  'TN4a',  'TP1',   'SN1',     'SC3',  'TC4',  'SC3']
     
+    
     '''General inputs '''
     len_box = 200 # length of initial simulation box before compression
-    save_dir = 'codeine_diffusion_test'
-    len_box_production = 100
+    save_dir = 'codeine_diffusion_test' #where to save the data files
+    len_box_production = 100 # length of simulation box after compression (used to calculate number of solvent molecules required for TI simulations)
     sim_type = 'diffusion' #'diffusion' or 'ti'
     
     '''Polyurea Info''' #Change the number of chains/monomers as desired
     num_chains = 442
-    num_monomers = 20
+    num_monomers = 20 #actually total number of beads (ie num_monomers = 20 -> 20 beads = 10 monomers here)
     
     '''Solvent Info'''
-    solvent = 'PU' #'water', 'PU', or 'self'
+    solvent = 'PU'  #'water', 'PU' (polyurea), or 'self' (more molecules of the same type)
     
     #change these to the desired values for your FM:
     molec_density = 1.32 #g/cm3 codeine
@@ -85,6 +93,7 @@ def codeine_diffusion_example():
     
     '''TI Params''' #only need to be specified if sim_type == 'ti'
     #A list of the pairs that you are performing ti on. 
+    #Since this is a diffusion simulation, these variables are ignored
     ti_pairlist = [[i,j] for i in range(4, 13) for j in range(2, 4)]
     d_lambda = 0.002
     
@@ -93,30 +102,32 @@ def codeine_diffusion_example():
                      molec_density, molec_mass, ti_pairlist, d_lambda)
     
 def hexanal_ti_example():
-    #Example of MARTINI model description for hexanal
+    #Example of MARTINI model description for codeine (obtained using visualize_sdfs.py)
     chemical = 'hexanal'
     grouping = [[1,2,8,10], [14,16,20]]
     mapping = ['C1', 'SN6a']
     
     '''General inputs '''
     len_box = 200 # length of initial simulation box before compression
-    save_dir = 'hexanal_ti_self'
-    len_box_production = 100
+    save_dir = 'hexanal_ti_self' #where to save the data files
+    len_box_production = 100 # length of simulation box after compression (used to calculate number of solvent molecules required for TI simulations)
     sim_type = 'ti' #'diffusion' or 'ti'
     
-    '''Polyurea Info'''
+    '''Polyurea Info'''  #Change the number of chains/monomers as desired
     num_chains = 442
-    num_monomers = 20
+    num_monomers = 20 #actually total number of beads (ie num_monomers = 20 -> 20 beads = 10 monomers here)
     
     '''Solvent Info'''
-    solvent = 'self' #'water', 'PU', or 'self'
+    solvent = 'self' #'water', 'PU' (polyurea), or 'self' (more molecules of the same type)
     molec_density = 0.814 #g/cm3 hexanal
-    molec_mass = 100.16 #g/mol codeine
+    molec_mass = 100.16 #g/mol hexanal
     
     '''TI Params'''
-    #ti_pairlist = [[1,i] for i in range(4,13)]
-    ti_pairlist = [[i,j] for i in range(4, 13) for j in range(2, 4)]
-    d_lambda = 0.002
+    #A list of the pairs that you are performing ti on. In this example, since solvent=='self', we want this list to include all 
+    #pairs between the reference hexanal molecule (types 4-5) and the solvent hexanal molecules (type 6-7)
+    # if you were doing ti in water, this would be [[1,j] for j in range(4, 6)], and for ti in pu, this would be [[i,j] for i in range(4, 6) for j in range(2, 4)]
+    ti_pairlist = [[i,j] for i in range(4, 6) for j in range(6, 8)]
+    d_lambda = 0.002 #finite difference size
     
     write_data_files(chemical, grouping, mapping, len_box, save_dir, sim_type, 
                      len_box_production, num_chains, num_monomers, solvent,
