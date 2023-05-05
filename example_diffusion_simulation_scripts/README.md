@@ -1,6 +1,6 @@
 # Example Diffusion Simulation Scripts
 
-These are example equilibration and production scripts used to run a diffusion simulation for codeine. Automated generation of these scripts was not completed, so the following changes need to be manually made in order to use these scripts for different molecules.
+These are example equilibration and production scripts used to run a diffusion simulation for codeine. Automated generation of these scripts was not completed, so the following changes need to be manually made in order to use these scripts for different molecules (other than codeine, which is the molecule used in these examples).
 
 ### In equil.lmpin:
 + The **create_box** command needs to be modified to include the required number of atom types, bonds, and angles. Generally, you will need 3 + N atom types, 1 + B bond types, and 1 + A angle types, where N, B, and A are the numbers of atom, bond, and angle types in the fragrance molecule respectively. 
