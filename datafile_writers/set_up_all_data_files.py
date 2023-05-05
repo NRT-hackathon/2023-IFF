@@ -62,9 +62,6 @@ def write_data_files(chemical, grouping, mapping, len_box, save_dir, sim_type,
 """
 These two examples demonstrate how the code can be organized to write the data files 
 required for the simulation.
-
-
-
 """
 
 def codeine_diffusion_example():
