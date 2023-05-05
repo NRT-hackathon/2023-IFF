@@ -14,4 +14,4 @@ The primary script that needs to be edited in order to write the data files is t
 
 4. Lastly, running the set_up_all_data_files.py script as described by the comments in the script will create all the required data files needed for the simulation. 
 
-The data files are always written such that water is bead type 1, polyurea is composed of bead types 2 and 3, and the FM of interest is bead types 4 to (4+N), with N the number of beads in the FM Martini mapping. For the 'self' solvent TI simulations, the bead types for the solvent FM molecules range from (4+N) to (4+2N)
+The data files are always written such that water is bead type 1, polyurea is composed of bead types 2 and 3, and the FM of interest is bead types 4 to (3+N), with N the number of beads in the FM Martini mapping. For the 'self' solvent TI simulations, the bead types for the solvent FM molecules range from (4+N) to (3+2N)
