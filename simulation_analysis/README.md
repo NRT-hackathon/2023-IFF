@@ -12,5 +12,8 @@ Well, actually we only compute the free energy change with the TI_integral.py sc
 
 The free energy change we compute here is the free energy change associated with removing the fragrance molcule from its environment (water, polyurea, or more fragrance molecules).
 When combining multiple of these free energies, we can calculate the free energy change between the two environments. For example if $\Delta G_{water}$ and $\Delta G_{pu}$ represent the free energy changes of removing the fragrance molecule from water and polyurea respectively, we can compute the partition coefficient for the fragrance molecule between water and polyurea ($K_{water/pu}$) using:
-$log(K_{water/pu}) = \dfrac{\Delta G_{water} - \Delta G_{pu}}{2.303RT}$ where R is the molar Boltzmann constant (8.314e-3 kJ/mol.K) and T is the temperature.
+
+$log(K_{water/pu}) = \dfrac{\Delta G_{water} - \Delta G_{pu}}{2.303RT}$ 
+
+where R is the molar Boltzmann constant (8.314e-3 kJ/mol.K) and T is the temperature.
 
