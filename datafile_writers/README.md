@@ -1,3 +1,4 @@
+# Datafile Writers
 These scripts write the data files (including initial bead locations, bonds, and angles, bonded and nonbonded interaction coefficients, and bead masses) that are read by LAMMPS for the simulations completed in this project.
 
 NOTE: we did not have time to automate the writing of the LAMMPS run scripts, so those are not generated via this code, though it would not be very difficult to do so. The steps to manually adjust the run scripts are described in their respective "example_{simulationtype}_simulation_scripts" directories.
