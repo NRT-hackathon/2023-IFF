@@ -10,19 +10,13 @@ This can be adapted to run the solver without bootstrapping, simply by setting t
 
 The file currently includes the example data from the two cases that we simulated (all additional parameters, such as the microcapsule sizes, total amount of   from Muro Sune, et al.). 
 
-Case 1: Codeine
-Diffusion Coefficient:
-  D = 1.954e-9 (8.3e-11)
-Partition Coefficient between polyurea and inside capsule (pure codeine):
-  $log(K_{m/d})$ = 4.25 (0.9)
-Partition Coefficient between polyurea and release medium (water):
-  $log(K_{m/d})$ = 12.9 (0.73)
+**Case 1: Codeine**  
++ Diffusion Coefficient: D = 1.954e-9 (8.3e-11)  
++ Partition Coefficient between polyurea and inside capsule (pure codeine): $log(K_{m/d})$ = 4.25 (0.9)  
++ Partition Coefficient between polyurea and release medium (water): $log(K_{m/d})$ = 12.9 (0.73)  
 
-Case 2: Hexanal
-Diffusion Coefficient:
-  D = 7.16e-9 (1.86e-9)
-Partition Coefficient between polyurea and inside capsule (pure hexanal):
-  $log(K_{m/d})$ = 2.40 (0.39)
-Partition Coefficient between polyurea and release medium (water):
-  $log(K_{m/d})$ = 5.70 (0.38)
+**Case 2: Hexanal**  
++ Diffusion Coefficient: D = 7.16e-9 (1.86e-9)  
++ Partition Coefficient between polyurea and inside capsule (pure hexanal): $log(K_{m/d})$ = 2.40 (0.39)  
++ Partition Coefficient between polyurea and release medium (water): $log(K_{m/d})$ = 5.70 (0.38)  
 
