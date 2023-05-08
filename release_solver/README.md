@@ -1,4 +1,4 @@
-#Release Profile Solver
+# Release Profile Solver
 
 The solve_release_bootstrap.py file solves the release profile using the macroscale model used by Muro Sune, et al. using the example data from the simulations we ran. The model is sovled for bootstrapped samples of the partition and diffusion coefficients based on normal distributions determined from the mean and standard deviations of the values obtained from simulation.
 
