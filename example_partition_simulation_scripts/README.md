@@ -11,4 +11,4 @@ These are example equilibration and production scripts used to run partition sim
 + To generate additional trials, we varied the seed used in the **velocity** command.
 
 ### To modify the production scripts:
-+ The **fix ADAPT** and **comptute fep** commands both need to be modified to include the relevant bead types. For water simulations, this will be "1 4*(3+N)", for polyurea, this will be "2*3 4*(3+N)", and for self, this will be "4*(3+N) (4+N)*(3+2N)" with N the number of bead types in the fragrance molecule.
++ The **fix ADAPT** and **comptute fep** commands both need to be modified to include the relevant bead types. For water simulations, this will be "1 4*(3+N)", for polyurea, this will be "2\*3 4\*(3+N)", and for self, this will be "4*(3+N) (4+N)*(3+2N)" with N the number of bead types in the fragrance molecule.
