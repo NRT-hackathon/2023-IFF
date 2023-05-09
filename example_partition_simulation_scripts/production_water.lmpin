@@ -1,0 +1,51 @@
+#TI for hexanal in water, production
+
+read_restart   post_equil.rs
+reset_timestep 	0
+
+neighbor	5 bin
+neigh_modify	every 10 delay 0 check yes
+
+fix		1 all npt temp 300.0 300.0 $(10*dt) iso 1.0 1.0 $(1000.0*dt)
+
+thermo		10000
+
+
+thermo_style 	custom step temp pe ke etotal vol press atoms
+thermo_modify 	norm no
+
+dump 		1 all custom 1000 production.lammpstrj id mol type xu yu zu
+dump_modify 	1 sort id append no
+
+timestep 	3
+restart 	10000	prod_rs.0 prod_rs.1
+
+variable 	lambda equal ramp(1.0,0.0)
+fix 		ADAPT all adapt/fep 100000 &
+		pair lj/cut/soft lambda 1 4*5 v_lambda & 
+		after yes
+
+variable	dlambda equal -0.002
+
+compute FEP all fep 300 &
+  pair lj/cut/soft lambda 1 4*5 v_dlambda
+
+fix FEP all ave/time 20 4000 100000 c_FEP[*] file fdti10.fep
+
+fix		thermo_print all print 1000 "$(step) $(temp) $(pe) $(epair) $(etotal)"  screen no file prod_thermo.txt title "# step temp pe pair etotal"
+
+run 		2000000
+
+unfix ADAPT
+
+# Can't evaluate forward difference on the last point (lambda < 0), so use backward difference (perturb lambda from 0.002 to 0)
+
+variable lambda equal 0.002
+
+read_data	nonbond_LJ_additional_soft_final_perturb.txt add merge
+
+run 100000
+
+
+write_restart	post_production.rs
+write_data 	final_datafile.dat
