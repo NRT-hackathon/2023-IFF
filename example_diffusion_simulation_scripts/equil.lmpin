@@ -8,7 +8,6 @@ region 	box block -25 25 -25 25 -25 25
 create_box 	12 box bond/types 13 extra/bond/per/atom 5 angle/types 25 extra/angle/per/atom 10
 
 pair_style 	lj/cut 11 #default cutoff of 1.1nm
-pair_modify	shift yes
 bond_style 	harmonic
 special_bonds 	lj 0.0 1.0 1.0
 angle_style	harmonic
@@ -20,6 +19,7 @@ mass 		1 72.0
 read_data	PU_20.dat add append offset 1 0 0 0 0
 read_data 	codeine_data.dat add append offset 3 1 1 0 0
 read_data	nonbond_equil.txt add merge
+pair_modify	shift yes
 
 #initialize
 velocity	all create 300 82469
@@ -59,6 +59,7 @@ read_data	nonbond_LJ.txt add merge
 pair_coeff	2 2 0.811 4.7 5.276
 pair_coeff	2 3 0.555 4.3 4.827
 pair_coeff	3 3 0.849 4.1 4.602
+pair_modify	shift yes
 
 
 #Run equilibration and keep track of equilibration params
@@ -68,10 +69,4 @@ restart	100000 equil_rs.$(step) equil_rs.$(step)
 run 		1000000
 
 write_restart	post_equil.rs
-
-
-
-
-
-
 
